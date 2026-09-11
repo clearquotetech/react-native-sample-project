@@ -55,6 +55,7 @@ function Field({
       <TextInput
         style={[styles.textInput, compact && styles.compactTextInput]}
         placeholder={placeholder}
+        placeholderTextColor="black"
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
@@ -421,7 +422,7 @@ const styles = StyleSheet.create({
   startButton: {
     marginVertical: 10,
     marginHorizontal: 16,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#2AB6B6',
     borderRadius: 10,
     paddingVertical: 14,
     paddingHorizontal: 16,
