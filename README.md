@@ -122,7 +122,7 @@ implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
 implementation("com.google.firebase:firebase-analytics-ktx")
 ```
 
-Firebase Analytics is a transitive SDK dependency. This sample applies the Google Services plugin and ships [`android/app/google-services.json`](android/app/google-services.json) for `com.myapp`. Replace that file with your own Firebase Android app config before production use.
+Firebase Analytics is a transitive SDK dependency. This sample applies the Google Services plugin and ships [`android/app/google-services.json`](android/app/google-services.json) for application ID `io.clearquote.clearquote_sdk_demo_app` (same as [ClearQuote-Android-SDK-Demo-app](https://github.com/clearquotetech/ClearQuote-Android-SDK-Demo-app)). Replace that file with your own Firebase Android app config before production use.
 
 ### Required permissions and FileProvider
 

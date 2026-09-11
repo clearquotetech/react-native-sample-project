@@ -80,11 +80,11 @@ android {
 
     namespace "com.myapp"
     defaultConfig {
-        applicationId "com.myapp"
+        applicationId "io.clearquote.clearquote_sdk_demo_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 34
+        versionName "4.13"
     }
     signingConfigs {
         debug {
