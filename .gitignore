@@ -22,6 +22,11 @@ DerivedData
 *.xcuserstate
 **/.xcode.env.local
 
+# Swift Package Manager
+.build/
+.swiftpm/
+**/xcshareddata/swiftpm/
+
 # Android/IntelliJ
 #
 build/
