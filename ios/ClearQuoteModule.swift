@@ -119,6 +119,7 @@ class ClearQuoteModule: RCTEventEmitter {
         regNumber: $0["regNumber"] as? String,
         make: $0["make"] as? String,
         model: $0["model"] as? String,
+        vin: $0["vin"] as? String,
         bodyStyle: $0["bodyStyle"] as? String,
         fuelType: $0["fuelType"] as? String,
         variant: $0["variant"] as? String
