@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    ClearQuote.shared.locationUsage = .foregroundOnly
     #if DEBUG
     ClearQuote.shared.logsEnabled = true
     #endif
