@@ -1,19 +1,21 @@
 # ClearQuote React Native Sample Project
 
-Sample React Native app showing ClearQuote SDK integration via native bridges on iOS and Android.
+Sample React Native app for the ClearQuote SDK.
 
-SDK installation guide available at this [link](https://docs.google.com/document/d/1pnm9G5rGu3A4N90RWYN44I0O5YGiaO8V8V-7zp39GKg/edit?tab=t.0)
+> **CQ-iOS-SDK Integration document:** [ClearQuoteSDK ReactNative Integration guide.pdf](./ClearQuoteSDK%20ReactNative%20Integration%20guide.pdf)
 
-## Requirements
+---
+
+## 🧰 Prerequisites
 
 ### Shared
 - Node.js **22.11+**
-- npm or yarn
-- A valid **ClearQuote SDK key**
+- React Native **0.76+**
+- React Native CLI
 
 ### iOS
 - macOS
-- Xcode **16.1+**
+- Xcode **27+**
 - CocoaPods **1.15.2+**
 - iOS **16+** simulator or device
 
@@ -42,10 +44,16 @@ pod install
 cd ..
 ```
 
-## Run on iOS
+### Resolve the ClearQuote iOS SDK
+`cq-ios-sdk` is a Swift package. Open the workspace in Xcode so it can download and resolve the package:
 
-From the repo root:
+```bash
+open ios/MyApp.xcworkspace
+```
 
+Wait for Xcode to finish resolving packages before you build. If resolution does not start on its own, use **File → Packages → Resolve Package Versions**.
+
+### Run the app
 ```bash
 npm run ios
 ```
@@ -56,18 +64,16 @@ Or:
 npx react-native run-ios
 ```
 
-You can also open `ios/MyApp.xcworkspace` in Xcode and run the **MyApp** scheme on a simulator or device.
+---
 
-## Run on Android
+## 🤖 Android
 
-From the repo root, with an emulator running or a device connected:
-
-```bash
-npm run android
-```
-
-Or:
-
-```bash
-npx react-native run-android
-```
+> ⚠️ **Status: Implementation pending**
+>
+> ClearQuote Android SDK integration is **not implemented yet**. The React Native app shell can still be started with:
+>
+> ```bash
+> npm run android
+> # or
+> npx react-native run-android
+> ```

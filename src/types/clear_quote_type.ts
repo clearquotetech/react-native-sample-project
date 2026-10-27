@@ -20,6 +20,7 @@ export type ClientAttrs = {
     bodyStyle?: string;
     fuelType?: string;
     variant?: string;
+    vin?: string;
   };
   
   export type QuoteData = {

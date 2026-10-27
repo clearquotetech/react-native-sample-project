@@ -25,7 +25,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Inspection'>;
 
 function optionalTrim(value: string): string | undefined {
   const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : undefined;
+  return trimmed.length > 0 ? value : undefined;
 }
 
 type FieldProps = {
@@ -86,6 +86,7 @@ export default function InspectionScreen({ navigation }: Readonly<Props>) {
   const [regNumber, setRegNumber] = useState('');
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
+  const [vin, setVin] = useState('');
   const [bodyStyle, setBodyStyle] = useState('');
   const [fuelType, setFuelType] = useState('');
   const [variant, setVariant] = useState('');
@@ -142,6 +143,7 @@ export default function InspectionScreen({ navigation }: Readonly<Props>) {
       regNumber: optionalTrim(regNumber),
       make: optionalTrim(make),
       model: optionalTrim(model),
+      vin: optionalTrim(vin),
       bodyStyle: optionalTrim(bodyStyle),
       fuelType: optionalTrim(fuelType),
       variant: optionalTrim(variant),
@@ -264,6 +266,13 @@ export default function InspectionScreen({ navigation }: Readonly<Props>) {
         />
         <Field label="Make" value={make} onChangeText={setMake} placeholder="make" />
         <Field label="Model" value={model} onChangeText={setModel} placeholder="model" />
+        <Field
+          label="VIN"
+          value={vin}
+          onChangeText={setVin}
+          placeholder="vin"
+          autoCapitalize="characters"
+        />
         <Field
           label="Body Style"
           value={bodyStyle}
