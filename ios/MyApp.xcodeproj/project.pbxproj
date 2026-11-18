@@ -327,7 +327,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/ModuleShims",
 				);
 				INFOPLIST_FILE = MyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "ClearQuote SDK Demo";
@@ -366,7 +365,6 @@
 				DEVELOPMENT_TEAM = 87A82WYPZS;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/ModuleShims",
 				);
 				INFOPLIST_FILE = MyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "ClearQuote SDK Demo";
@@ -628,8 +626,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/clearquotetech/cq-ios-sdk.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = exactVersion;
+				version = "0.2.0-alpha.4";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
