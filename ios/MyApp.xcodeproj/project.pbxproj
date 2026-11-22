@@ -243,13 +243,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MyApp/Pods-MyApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MyApp/Pods-MyApp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -286,13 +282,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MyApp/Pods-MyApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MyApp/Pods-MyApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -325,9 +317,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 87A82WYPZS;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "ClearQuote SDK Demo";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -363,9 +353,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 87A82WYPZS;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "ClearQuote SDK Demo";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -627,7 +615,7 @@
 			repositoryURL = "https://github.com/clearquotetech/cq-ios-sdk.git";
 			requirement = {
 				kind = exactVersion;
-				version = "0.2.0-alpha.4";
+				version = "0.2.0-alpha.5";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
