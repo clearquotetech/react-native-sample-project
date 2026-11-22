@@ -57,6 +57,11 @@ export class ClearQuoteSDK {
     return ClearQuoteModule.getSDKVersion();
   }
 
+  /** Swift toolchain version stamped into the app at build time. */
+  static getSDKSwiftToolchainVersion(): string {
+    return ClearQuoteModule.getSDKSwiftToolchainVersion();
+  }
+
   /** Check if SDK is initialized */
   static isSDKInitialized(): boolean {
     return ClearQuoteModule.isSDKInitialized();

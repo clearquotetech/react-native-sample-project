@@ -187,6 +187,16 @@ class ClearQuoteModule: RCTEventEmitter {
       ClearQuote.shared.getCurrentSDKVersion()
     }
   }
+
+  /// Swift compiler version stamped into Info.plist as `CQSDKSwiftVersion` by the build-phase script.
+  @objc(getSDKSwiftToolchainVersion)
+  func getSDKSwiftToolchainVersion() -> String {
+    if let version = Bundle.main.object(forInfoDictionaryKey: "CQSDKSwiftVersion") as? String,
+       !version.isEmpty {
+      return version
+    }
+    return "Unknown"
+  }
   
   /// Returns `NSNumber` so the ObjC/TurboModule interop layer can retain a real object.
   @objc(isSDKInitialized)

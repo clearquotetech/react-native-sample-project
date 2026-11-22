@@ -138,6 +138,7 @@
 				F73D70139DFFF68C2F5D6D6A /* [CP] Embed Pods Frameworks */,
 				A59086A52EE7680FF5ECEF1F /* [CP] Copy Pods Resources */,
 				A40BB1A430415A0200F482D6 /* Fix TensorFlowLite Info.plists */,
+				C4E8A1B22FB85C160047D12C /* Stamp CQSDK Swift Version */,
 			);
 			buildRules = (
 			);
@@ -214,6 +215,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+		};
+		C4E8A1B22FB85C160047D12C /* Stamp CQSDK Swift Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Stamp CQSDK Swift Version";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Reads the Swift compiler version of the resolved ClearQuoteSDK binary and writes it to the built app's Info.plist as CQSDKSwiftVersion.\nPLIST=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\nARTIFACTS=\"${BUILD_DIR%/Build/*}/SourcePackages/artifacts\"\nINTERFACE=$(find \"$ARTIFACTS\" -path \"*/ClearQuoteSDK.framework/Modules/ClearQuoteSDK.swiftmodule/*\" -name \"*.swiftinterface\" ! -name \"*.private.swiftinterface\" ! -name \"._*\" 2>/dev/null | head -n 1)\nSDK_SWIFT_VERSION=\"\"\nif [ -n \"$INTERFACE\" ]; then\n  SDK_SWIFT_VERSION=$(awk '$2 == \"swift-compiler-version:\" {print $6; exit}' \"$INTERFACE\")\nfi\nSDK_SWIFT_VERSION=${SDK_SWIFT_VERSION:-Unknown}\n/usr/libexec/PlistBuddy -c \"Set :CQSDKSwiftVersion $SDK_SWIFT_VERSION\" \"$PLIST\" 2>/dev/null || /usr/libexec/PlistBuddy -c \"Add :CQSDKSwiftVersion string $SDK_SWIFT_VERSION\" \"$PLIST\"\n";
 		};
 		A40BB1A430415A0200F482D6 /* Fix TensorFlowLite Info.plists */ = {
 			isa = PBXShellScriptBuildPhase;
