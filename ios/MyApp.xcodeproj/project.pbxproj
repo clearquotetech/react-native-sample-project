@@ -137,7 +137,6 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				F73D70139DFFF68C2F5D6D6A /* [CP] Embed Pods Frameworks */,
 				A59086A52EE7680FF5ECEF1F /* [CP] Copy Pods Resources */,
-				C4E8A1B22FB85C160047D12C /* Stamp CQSDK Swift Version */,
 			);
 			buildRules = (
 			);
@@ -235,25 +234,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyApp/Pods-MyApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		C4E8A1B22FB85C160047D12C /* Stamp CQSDK Swift Version */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Stamp CQSDK Swift Version";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Reads the Swift compiler version of the resolved ClearQuoteSDK binary and writes it to the built app's Info.plist as CQSDKSwiftVersion.\nPLIST=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\nARTIFACTS=\"${BUILD_DIR%/Build/*}/SourcePackages/artifacts\"\nINTERFACE=$(find \"$ARTIFACTS\" -path \"*/ClearQuoteSDK.framework/Modules/ClearQuoteSDK.swiftmodule/*\" -name \"*.swiftinterface\" ! -name \"*.private.swiftinterface\" ! -name \"._*\" 2>/dev/null | head -n 1)\nSDK_SWIFT_VERSION=\"\"\nif [ -n \"$INTERFACE\" ]; then\n  SDK_SWIFT_VERSION=$(awk '$2 == \"swift-compiler-version:\" {print $6; exit}' \"$INTERFACE\")\nfi\nSDK_SWIFT_VERSION=${SDK_SWIFT_VERSION:-Unknown}\n/usr/libexec/PlistBuddy -c \"Set :CQSDKSwiftVersion $SDK_SWIFT_VERSION\" \"$PLIST\" 2>/dev/null || /usr/libexec/PlistBuddy -c \"Add :CQSDKSwiftVersion string $SDK_SWIFT_VERSION\" \"$PLIST\"\n";
 		};
 		E9F80808B500F811B4BF1847 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

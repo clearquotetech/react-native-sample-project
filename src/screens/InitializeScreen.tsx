@@ -7,7 +7,6 @@ import {
   Alert,
   StyleSheet,
   Pressable,
-  Platform,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ClearQuoteSDK } from '../ClearQuoteSDK';
@@ -19,12 +18,7 @@ export default function InitializeScreen({ navigation }: Readonly<Props>) {
   const [sdkKey, setSdkKey] = useState('');
   const [sdkVersion] = useState(() => {
     try {
-      const version = ClearQuoteSDK.getSDKVersion();
-      if (Platform.OS !== 'ios') {
-        return version;
-      }
-      const swiftVersion = ClearQuoteSDK.getSDKSwiftToolchainVersion();
-      return `${version} (Swift toolchain: ${swiftVersion})`;
+      return ClearQuoteSDK.getSDKVersion();
     } catch {
       return null;
     }
@@ -78,7 +72,7 @@ export default function InitializeScreen({ navigation }: Readonly<Props>) {
       </View>
 
       {sdkVersion != null && (
-        <Text style={styles.version}>CQ SDK Version - {sdkVersion}</Text>
+        <Text style={styles.version}>SDK Version - {sdkVersion}</Text>
       )}
     </View>
   );
@@ -135,7 +129,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   version: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'black',
     fontWeight: '600',
     textAlign: 'center',
