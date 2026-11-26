@@ -15,9 +15,6 @@
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		ADE02EC3A0DB42283A17924B /* ClearQuoteSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FB248774D083D8F29B25DAE9 /* ClearQuoteSDK */; };
-		B1C2D3E4F5A60718293A4B5C /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5A60718293A4B5D /* CoreML.framework */; };
-		C2D3E4F5A60718293A4B5C6D /* MetalPerformanceShaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3E4F5A60718293A4B5C6E /* MetalPerformanceShaders.framework */; };
-		D3E4F5A60718293A4B5C6D7E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E4F5A60718293A4B5C6D7F /* Accelerate.framework */; };
 		E7A1C4B02F6D4E8A00100002 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A1C4B02F6D4E8A00100001 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,9 +43,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1C2D3E4F5A60718293A4B5C /* CoreML.framework in Frameworks */,
-				C2D3E4F5A60718293A4B5C6D /* MetalPerformanceShaders.framework in Frameworks */,
-				D3E4F5A60718293A4B5C6D7E /* Accelerate.framework in Frameworks */,
 				6CF5671BAC9884390C7F76B1 /* Pods_MyApp.framework in Frameworks */,
 				ADE02EC3A0DB42283A17924B /* ClearQuoteSDK in Frameworks */,
 			);
@@ -137,7 +131,6 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				F73D70139DFFF68C2F5D6D6A /* [CP] Embed Pods Frameworks */,
 				A59086A52EE7680FF5ECEF1F /* [CP] Copy Pods Resources */,
-				A40BB1A430415A0200F482D6 /* Fix TensorFlowLite Info.plists */,
 			);
 			buildRules = (
 			);
@@ -214,26 +207,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
-		};
-		A40BB1A430415A0200F482D6 /* Fix TensorFlowLite Info.plists */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Fix TensorFlowLite Info.plists";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# kewlbear/TensorFlowLiteC binary frameworks omit App Store-required Info.plist keys.\n# Patches SPM artifacts + embedded copies so validation (ITMS-90057 / ITMS-90530) succeeds.\nset -euo pipefail\n\nVERSION=\"1.0.0\"\nMIN_OS=\"${IPHONEOS_DEPLOYMENT_TARGET}\"\n\npatch_plist() {\n  plist=\"$1\"\n  if [ ! -f \"${plist}\" ]; then\n    return 0\n  fi\n\n  if /usr/libexec/PlistBuddy -c \"Print :CFBundleShortVersionString\" \"${plist}\" >/dev/null 2>&1; then\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString ${VERSION}\" \"${plist}\"\n  else\n    /usr/libexec/PlistBuddy -c \"Add :CFBundleShortVersionString string ${VERSION}\" \"${plist}\"\n  fi\n\n  if /usr/libexec/PlistBuddy -c \"Print :MinimumOSVersion\" \"${plist}\" >/dev/null 2>&1; then\n    /usr/libexec/PlistBuddy -c \"Set :MinimumOSVersion ${MIN_OS}\" \"${plist}\"\n  else\n    /usr/libexec/PlistBuddy -c \"Add :MinimumOSVersion string ${MIN_OS}\" \"${plist}\"\n  fi\n\n  echo \"Patched ${plist}\"\n}\n\n# 1) Patch SourcePackages artifacts so future embeds already have valid keys.\nDERIVED_DATA_ROOT=\"${BUILD_DIR%%/Build/*}\"\nARTIFACTS_ROOT=\"${DERIVED_DATA_ROOT}/SourcePackages/artifacts/tensorflowlitec\"\nif [ -d \"${ARTIFACTS_ROOT}\" ]; then\n  find \"${ARTIFACTS_ROOT}\" -path \"*/TensorFlowLiteC*.framework/Info.plist\" | while IFS= read -r plist; do\n    patch_plist \"${plist}\"\n  done\nelse\n  echo \"note: TensorFlowLiteC SPM artifacts not found at ${ARTIFACTS_ROOT}\"\nfi\n\n# 2) Patch (and re-sign) frameworks already embedded in the app bundle.\nFRAMEWORKS_DIR=\"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nif [ -d \"${FRAMEWORKS_DIR}\" ]; then\n  for name in TensorFlowLiteC TensorFlowLiteCMetal TensorFlowLiteCCoreML; do\n    fw=\"${FRAMEWORKS_DIR}/${name}.framework\"\n    patch_plist \"${fw}/Info.plist\"\n    if [ -d \"${fw}\" ] && [ -n \"${EXPANDED_CODE_SIGN_IDENTITY:-}\" ] && [ \"${EXPANDED_CODE_SIGN_IDENTITY}\" != \"-\" ] && [ \"${CODE_SIGNING_ALLOWED:-YES}\" != \"NO\" ]; then\n      /usr/bin/codesign --force --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements,flags --timestamp=none \"${fw}\"\n    fi\n  done\nelse\n  echo \"note: Frameworks directory not found at ${FRAMEWORKS_DIR}; skipping embedded patch\"\nfi\n";
-			showEnvVarsInLog = 0;
 		};
 		A59086A52EE7680FF5ECEF1F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -325,10 +298,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 87A82WYPZS;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/ModuleShims",
-				);
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "ClearQuote SDK Demo";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -364,10 +335,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 87A82WYPZS;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/ModuleShims",
-				);
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MyApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "ClearQuote SDK Demo";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -467,6 +436,24 @@
 					"${PODS_ROOT}/React-graphics/react/renderer/graphics/platform/ios",
 					"${PODS_ROOT}/React-featureflags",
 					"${PODS_ROOT}/React-renderercss",
+					"${PODS_ROOT}/React-Fabric/react/renderer/components/scrollview/platform/cxx",
+					"${PODS_ROOT}/React-Fabric/react/renderer/components/scrollview/platform/ios",
+					"${PODS_ROOT}/React-FabricComponents/react/renderer/textlayoutmanager/platform/ios",
+					"${PODS_ROOT}/React-FabricComponents/react/renderer/components/text/platform/cxx",
+					"${PODS_ROOT}/React-FabricComponents/react/renderer/components/textinput/platform/ios",
+					"${PODS_ROOT}/React-FabricComponents/react/renderer/components/switch/iosswitch",
+					"${PODS_ROOT}/React-bridging",
+					"${PODS_ROOT}/React-cxxstableapi",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/scrollview/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/scrollview/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-FabricComponents/React_FabricComponents.framework/Headers/react/renderer/textlayoutmanager/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-FabricComponents/React_FabricComponents.framework/Headers/react/renderer/components/text/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-FabricComponents/React_FabricComponents.framework/Headers/react/renderer/components/textinput/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-FabricComponents/React_FabricComponents.framework/Headers/react/renderer/components/switch/iosswitch",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-bridging/React_bridging.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-featureflags/React_featureflags.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-renderercss/React_renderercss.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxstableapi/React_cxxstableapi.framework/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -493,6 +480,7 @@
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 					"-DRCT_REMOVE_LEGACY_ARCH=1",
 				);
+				PODFILE_DIR = "$(SRCROOT)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -567,6 +555,24 @@
 					"${PODS_ROOT}/React-graphics/react/renderer/graphics/platform/ios",
 					"${PODS_ROOT}/React-featureflags",
 					"${PODS_ROOT}/React-renderercss",
+					"${PODS_ROOT}/React-Fabric/react/renderer/components/scrollview/platform/cxx",
+					"${PODS_ROOT}/React-Fabric/react/renderer/components/scrollview/platform/ios",
+					"${PODS_ROOT}/React-FabricComponents/react/renderer/textlayoutmanager/platform/ios",
+					"${PODS_ROOT}/React-FabricComponents/react/renderer/components/text/platform/cxx",
+					"${PODS_ROOT}/React-FabricComponents/react/renderer/components/textinput/platform/ios",
+					"${PODS_ROOT}/React-FabricComponents/react/renderer/components/switch/iosswitch",
+					"${PODS_ROOT}/React-bridging",
+					"${PODS_ROOT}/React-cxxstableapi",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/scrollview/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/scrollview/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-FabricComponents/React_FabricComponents.framework/Headers/react/renderer/textlayoutmanager/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-FabricComponents/React_FabricComponents.framework/Headers/react/renderer/components/text/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-FabricComponents/React_FabricComponents.framework/Headers/react/renderer/components/textinput/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-FabricComponents/React_FabricComponents.framework/Headers/react/renderer/components/switch/iosswitch",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-bridging/React_bridging.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-featureflags/React_featureflags.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-renderercss/React_renderercss.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxstableapi/React_cxxstableapi.framework/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -592,6 +598,7 @@
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 					"-DRCT_REMOVE_LEGACY_ARCH=1",
 				);
+				PODFILE_DIR = "$(SRCROOT)";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
@@ -628,8 +635,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/clearquotetech/cq-ios-sdk.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -9,14 +9,18 @@ import type {
 
 const { ClearQuoteModule } = NativeModules;
 
+type ClearQuoteEvents = {
+  inspectionCompletionStatus: [InspectionCompletionStatus];
+};
+
 export class ClearQuoteSDK {
   private constructor() {}
 
-  private static getEventEmitter(): NativeEventEmitter {
+  private static getEventEmitter(): NativeEventEmitter<ClearQuoteEvents> {
     if (ClearQuoteModule == null) {
       throw new Error('ClearQuoteModule is not available');
     }
-    return new NativeEventEmitter(ClearQuoteModule);
+    return new NativeEventEmitter<ClearQuoteEvents>(ClearQuoteModule);
   }
 
   /** Initialize ClearQuote SDK */

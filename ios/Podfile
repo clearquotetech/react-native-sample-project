@@ -2,6 +2,14 @@
 # React Native + ClearQuoteSDK (SPM)
 ##############################################
 
+############################################################
+# RN 0.88 uses prebuilt React Native binaries by default, which
+# do not work with the static frameworks setup below. Build from
+# source instead.
+############################################################
+ENV['RCT_USE_PREBUILT_RNCORE'] = '0'
+ENV['RCT_USE_RN_DEP'] = '0'
+
 require Pod::Executable.execute_command(
   'node',
   ['-p', 'require.resolve("react-native/scripts/react_native_pods.rb")'],
@@ -65,28 +73,7 @@ target 'MyApp' do
       File.write(xcconfig, updated) if updated != contents
     end
 
-    ##########################################################
-    # Fix RN duplicate module / linker issues
-    ##########################################################
     installer.pods_project.targets.each do |target|
-
-      problematic = %w[
-        ReactCommon
-        react_runtime
-        React-Runtime
-        React-RuntimeHermes
-        React-RuntimeApple
-        React-RCTRuntime
-        ReactCodegen
-        react-native-safe-area-context
-      ]
-
-      if problematic.include?(target.name)
-        target.build_configurations.each do |config|
-          config.build_settings['DEFINES_MODULE'] = 'NO'
-          config.build_settings['CLANG_ENABLE_MODULES'] = 'NO'
-        end
-      end
 
       ########################################################
       # Deployment target consistency
